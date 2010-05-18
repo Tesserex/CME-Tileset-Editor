@@ -52,6 +52,7 @@ namespace Mega_Man_Tileset_Editor
 
             using (Graphics g = Graphics.FromImage(tileSheetPicture.Image))
             {
+                g.Clear(Color.LightGray);
                 g.DrawImage(tileset.Sheet, 0, 0);
 
                 if (highlight != Point.Empty)
