@@ -156,6 +156,7 @@ namespace Mega_Man_Tileset_Editor
             {
                 zoom++;
                 pictureList.Size = new Size(pictureList.Image.Size.Width * zoom, pictureList.Image.Size.Height * zoom);
+                AdjustLayout(true);
             }
         }
 
@@ -165,6 +166,7 @@ namespace Mega_Man_Tileset_Editor
             {
                 zoom--;
                 pictureList.Size = new Size(pictureList.Image.Size.Width * zoom, pictureList.Image.Size.Height * zoom);
+                AdjustLayout(true);
             }
         }
 
