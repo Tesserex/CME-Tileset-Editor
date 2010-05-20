@@ -25,10 +25,10 @@ namespace Mega_Man_Tileset_Editor
                 if (tileset == null || value >= tileset.Count) return;
                 selected = value;
                 currentFrame = 0;
-                trackBar1.Value = 0;
-                trackBar1.Maximum = tileset[selected].Sprite.Count - 1;
-                trackBar1.Enabled = (tileset[selected].Sprite.Count > 0);
-                numericUpDown1.Value = (tileset[selected].Sprite.Count > 0) ? tileset[selected].Sprite[0].Duration : 0;
+                frameTicker.Value = 1;
+                frameTicker.Minimum = 1;
+                frameTicker.Maximum = tileset[selected].Sprite.Count;
+                frameDuration.Value = (tileset[selected].Sprite.Count > 0) ? tileset[selected].Sprite[0].Duration : 0;
                 textTileName.Text = tileset[selected].Name;
                 comboProperties.SelectedItem = tileset[selected].Properties.Name;
                 ReDraw();
@@ -79,34 +79,28 @@ namespace Mega_Man_Tileset_Editor
 
         protected override void OnResize(EventArgs e)
         {
+            base.OnResize(e);
             CenterImage();
             ReDraw();
-            base.OnResize(e);
         }
 
         protected override void OnMove(EventArgs e)
         {
-            
-            this.Anchor = AnchorStyles.None;
             if (this.Top < 15)
             {
                 this.Top = 5;
-                this.Anchor |= AnchorStyles.Top;
             }
             if (this.Left < 15)
             {
                 this.Left = 5;
-                this.Anchor |= AnchorStyles.Left;
             }
             if (this.Bottom > this.MdiParent.ClientRectangle.Height - 15)
             {
                 this.Top = this.MdiParent.ClientRectangle.Height - this.Height - 5;
-                this.Anchor |= AnchorStyles.Bottom;
             }
             if (this.Right > this.MdiParent.ClientRectangle.Width - 15)
             {
                 this.Left = this.MdiParent.ClientRectangle.Width - this.Width - 5;
-                this.Anchor |= AnchorStyles.Right;
             }
             
             base.OnMove(e);
@@ -143,29 +137,28 @@ namespace Mega_Man_Tileset_Editor
                 picture.Image = image;
             }
 
-            picture.Left = (tilePanel.Width - picture.Width) / 2;
-            picture.Top = (tilePanel.Height - picture.Height) / 2;
+            picture.Left = (tilePanel.Width - picture.Width - 10) / 2 + 5;
+            picture.Top = (tilePanel.Height - picture.Height - 10) / 2 + 5;
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void frameTicker_Change(object sender, EventArgs e)
         {
-            if (tileset == null || trackBar1.Value >= tileset[selected].Sprite.Count) return;
+            if (tileset == null || frameTicker.Value > tileset[selected].Sprite.Count) return;
 
-            currentFrame = trackBar1.Value;
-            numericUpDown1.Value = tileset[selected].Sprite[currentFrame].Duration;
+            currentFrame = (int)frameTicker.Value - 1;
+            frameDuration.Value = tileset[selected].Sprite[currentFrame].Duration;
             ReDraw();
         }
 
         private void buttonAddFrame_Click(object sender, EventArgs e)
         {
             tileset[selected].Sprite.AddFrame();
-            trackBar1.Maximum = tileset[selected].Sprite.Count - 1;
-            trackBar1.Enabled = true;
+            frameTicker.Maximum = tileset[selected].Sprite.Count - 1;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            tileset[selected].Sprite[currentFrame].Duration = (int)numericUpDown1.Value;
+            tileset[selected].Sprite[currentFrame].Duration = (int)frameDuration.Value;
         }
 
         private void comboProperties_SelectedIndexChanged(object sender, EventArgs e)

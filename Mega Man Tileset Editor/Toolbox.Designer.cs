@@ -34,29 +34,33 @@
             this.textTileName = new System.Windows.Forms.TextBox();
             this.comboProperties = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.frameDuration = new System.Windows.Forms.NumericUpDown();
             this.buttonAddFrame = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.frameTicker = new System.Windows.Forms.NumericUpDown();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.tilePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
             this.toolPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frameDuration)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frameTicker)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tilePanel
             // 
             this.tilePanel.Controls.Add(this.picture);
-            this.tilePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tilePanel.Location = new System.Drawing.Point(0, 0);
+            this.tilePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tilePanel.Location = new System.Drawing.Point(0, 27);
             this.tilePanel.Name = "tilePanel";
             this.tilePanel.Padding = new System.Windows.Forms.Padding(3);
-            this.tilePanel.Size = new System.Drawing.Size(117, 92);
+            this.tilePanel.Size = new System.Drawing.Size(128, 93);
             this.tilePanel.TabIndex = 0;
             // 
             // picture
             // 
-            this.picture.Location = new System.Drawing.Point(12, 3);
+            this.picture.Location = new System.Drawing.Point(18, 6);
             this.picture.Name = "picture";
             this.picture.Size = new System.Drawing.Size(96, 82);
             this.picture.TabIndex = 0;
@@ -64,30 +68,30 @@
             // 
             // toolPanel
             // 
-            this.toolPanel.Controls.Add(this.textTileName);
+            this.toolPanel.Controls.Add(this.label3);
+            this.toolPanel.Controls.Add(this.frameTicker);
             this.toolPanel.Controls.Add(this.comboProperties);
             this.toolPanel.Controls.Add(this.label1);
-            this.toolPanel.Controls.Add(this.numericUpDown1);
+            this.toolPanel.Controls.Add(this.frameDuration);
             this.toolPanel.Controls.Add(this.buttonAddFrame);
-            this.toolPanel.Controls.Add(this.trackBar1);
-            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolPanel.Location = new System.Drawing.Point(0, 92);
+            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolPanel.Location = new System.Drawing.Point(0, 120);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(117, 167);
+            this.toolPanel.Size = new System.Drawing.Size(128, 107);
             this.toolPanel.TabIndex = 1;
             // 
             // textTileName
             // 
-            this.textTileName.Location = new System.Drawing.Point(10, 109);
+            this.textTileName.Location = new System.Drawing.Point(47, 3);
             this.textTileName.Name = "textTileName";
-            this.textTileName.Size = new System.Drawing.Size(91, 20);
+            this.textTileName.Size = new System.Drawing.Size(76, 20);
             this.textTileName.TabIndex = 7;
             this.textTileName.TextChanged += new System.EventHandler(this.textTileName_TextChanged);
             // 
             // comboProperties
             // 
             this.comboProperties.FormattingEnabled = true;
-            this.comboProperties.Location = new System.Drawing.Point(10, 82);
+            this.comboProperties.Location = new System.Drawing.Point(18, 79);
             this.comboProperties.Name = "comboProperties";
             this.comboProperties.Size = new System.Drawing.Size(91, 21);
             this.comboProperties.TabIndex = 6;
@@ -97,24 +101,25 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 29);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Duration:";
+            this.label1.Text = "Frame Duration";
             // 
-            // numericUpDown1
+            // frameDuration
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(70, 27);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(35, 20);
-            this.numericUpDown1.TabIndex = 3;
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.frameDuration.Location = new System.Drawing.Point(88, 32);
+            this.frameDuration.Name = "frameDuration";
+            this.frameDuration.Size = new System.Drawing.Size(35, 20);
+            this.frameDuration.TabIndex = 3;
+            this.frameDuration.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // buttonAddFrame
             // 
             this.buttonAddFrame.AutoSize = true;
-            this.buttonAddFrame.Location = new System.Drawing.Point(24, 53);
+            this.buttonAddFrame.Location = new System.Drawing.Point(10, 50);
             this.buttonAddFrame.Name = "buttonAddFrame";
             this.buttonAddFrame.Size = new System.Drawing.Size(68, 23);
             this.buttonAddFrame.TabIndex = 1;
@@ -122,26 +127,53 @@
             this.buttonAddFrame.UseVisualStyleBackColor = true;
             this.buttonAddFrame.Click += new System.EventHandler(this.buttonAddFrame_Click);
             // 
-            // trackBar1
+            // frameTicker
             // 
-            this.trackBar1.AutoSize = false;
-            this.trackBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(0, 0);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(117, 21);
-            this.trackBar1.TabIndex = 0;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.frameTicker.Location = new System.Drawing.Point(88, 6);
+            this.frameTicker.Name = "frameTicker";
+            this.frameTicker.ReadOnly = true;
+            this.frameTicker.Size = new System.Drawing.Size(35, 20);
+            this.frameTicker.TabIndex = 8;
+            this.frameTicker.ValueChanged += new System.EventHandler(this.frameTicker_Change);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.textTileName);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(128, 27);
+            this.panel1.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(39, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Name";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(5, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Current Frame";
             // 
             // Toolbox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(117, 259);
-            this.Controls.Add(this.tilePanel);
+            this.ClientSize = new System.Drawing.Size(128, 227);
             this.Controls.Add(this.toolPanel);
+            this.Controls.Add(this.tilePanel);
+            this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "Toolbox";
             this.Text = "Toolbox";
@@ -149,8 +181,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.picture)).EndInit();
             this.toolPanel.ResumeLayout(false);
             this.toolPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frameDuration)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frameTicker)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -160,11 +194,14 @@
         private System.Windows.Forms.Panel tilePanel;
         private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.PictureBox picture;
-        private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Button buttonAddFrame;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown frameDuration;
         private System.Windows.Forms.ComboBox comboProperties;
         private System.Windows.Forms.TextBox textTileName;
+        private System.Windows.Forms.NumericUpDown frameTicker;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
