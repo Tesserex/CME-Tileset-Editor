@@ -119,6 +119,7 @@
             this.animateButton.Name = "animateButton";
             this.animateButton.Size = new System.Drawing.Size(23, 22);
             this.animateButton.Text = "Animate";
+            this.animateButton.Click += new System.EventHandler(this.animateButton_Click);
             // 
             // TileListForm
             // 

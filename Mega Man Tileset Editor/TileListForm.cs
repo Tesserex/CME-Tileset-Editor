@@ -20,6 +20,18 @@ namespace Mega_Man_Tileset_Editor
         private int zoom = 1;
         private int cols;
 
+        private bool _animate;
+        private bool Animate
+        {
+            get { return _animate; }
+            set
+            {
+                _animate = value;
+                animateButton.Checked = value;
+                Program.Animate(value);
+            }
+        }
+
         public event Action<int> SelectedChanged;
 
         public TileListForm()
@@ -47,7 +59,14 @@ namespace Mega_Man_Tileset_Editor
 
             tileset.TileAdded += new Action(tileset_TileAdded);
 
-            Program.FrameTick += new Action(ReDraw);
+            Program.FrameTick += new Action(Program_FrameTick);
+        }
+
+        void Program_FrameTick()
+        {
+            if (tileset == null) return;
+            tileset.ForEach((t) => t.Sprite.Update());
+            ReDraw();
         }
 
         public void SelectNext()
@@ -197,6 +216,11 @@ namespace Mega_Man_Tileset_Editor
             if (pictureList.Image != null) pictureList.Image.Dispose();
             pictureList.Image = new Bitmap(this.cols * tileset.TileSize * zoom, rows * tileset.TileSize * zoom);
             pictureList.Size = new Size(pictureList.Image.Size.Width, pictureList.Image.Size.Height);
+        }
+
+        private void animateButton_Click(object sender, EventArgs e)
+        {
+            Animate = !Animate;
         }
     }
 }
