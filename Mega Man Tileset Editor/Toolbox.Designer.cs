@@ -31,20 +31,21 @@
             this.tilePanel = new System.Windows.Forms.Panel();
             this.picture = new System.Windows.Forms.PictureBox();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.textTileName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.frameTicker = new System.Windows.Forms.NumericUpDown();
             this.comboProperties = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.frameDuration = new System.Windows.Forms.NumericUpDown();
             this.buttonAddFrame = new System.Windows.Forms.Button();
-            this.frameTicker = new System.Windows.Forms.NumericUpDown();
+            this.textTileName = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.propEdit = new System.Windows.Forms.Button();
             this.tilePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
             this.toolPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.frameDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frameTicker)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frameDuration)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +69,7 @@
             // 
             // toolPanel
             // 
+            this.toolPanel.Controls.Add(this.propEdit);
             this.toolPanel.Controls.Add(this.label3);
             this.toolPanel.Controls.Add(this.frameTicker);
             this.toolPanel.Controls.Add(this.comboProperties);
@@ -80,20 +82,30 @@
             this.toolPanel.Size = new System.Drawing.Size(128, 107);
             this.toolPanel.TabIndex = 1;
             // 
-            // textTileName
+            // label3
             // 
-            this.textTileName.Location = new System.Drawing.Point(47, 3);
-            this.textTileName.Name = "textTileName";
-            this.textTileName.Size = new System.Drawing.Size(76, 20);
-            this.textTileName.TabIndex = 7;
-            this.textTileName.TextChanged += new System.EventHandler(this.textTileName_TextChanged);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Current Frame";
+            // 
+            // frameTicker
+            // 
+            this.frameTicker.Location = new System.Drawing.Point(88, 6);
+            this.frameTicker.Name = "frameTicker";
+            this.frameTicker.ReadOnly = true;
+            this.frameTicker.Size = new System.Drawing.Size(35, 20);
+            this.frameTicker.TabIndex = 8;
+            this.frameTicker.ValueChanged += new System.EventHandler(this.frameTicker_Change);
             // 
             // comboProperties
             // 
             this.comboProperties.FormattingEnabled = true;
-            this.comboProperties.Location = new System.Drawing.Point(18, 79);
+            this.comboProperties.Location = new System.Drawing.Point(6, 79);
             this.comboProperties.Name = "comboProperties";
-            this.comboProperties.Size = new System.Drawing.Size(91, 21);
+            this.comboProperties.Size = new System.Drawing.Size(72, 21);
             this.comboProperties.TabIndex = 6;
             this.comboProperties.Text = "Properties";
             this.comboProperties.SelectedIndexChanged += new System.EventHandler(this.comboProperties_SelectedIndexChanged);
@@ -127,14 +139,13 @@
             this.buttonAddFrame.UseVisualStyleBackColor = true;
             this.buttonAddFrame.Click += new System.EventHandler(this.buttonAddFrame_Click);
             // 
-            // frameTicker
+            // textTileName
             // 
-            this.frameTicker.Location = new System.Drawing.Point(88, 6);
-            this.frameTicker.Name = "frameTicker";
-            this.frameTicker.ReadOnly = true;
-            this.frameTicker.Size = new System.Drawing.Size(35, 20);
-            this.frameTicker.TabIndex = 8;
-            this.frameTicker.ValueChanged += new System.EventHandler(this.frameTicker_Change);
+            this.textTileName.Location = new System.Drawing.Point(47, 3);
+            this.textTileName.Name = "textTileName";
+            this.textTileName.Size = new System.Drawing.Size(76, 20);
+            this.textTileName.TabIndex = 7;
+            this.textTileName.TextChanged += new System.EventHandler(this.textTileName_TextChanged);
             // 
             // panel1
             // 
@@ -156,14 +167,15 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Name";
             // 
-            // label3
+            // propEdit
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Current Frame";
+            this.propEdit.Location = new System.Drawing.Point(84, 79);
+            this.propEdit.Name = "propEdit";
+            this.propEdit.Size = new System.Drawing.Size(39, 21);
+            this.propEdit.TabIndex = 10;
+            this.propEdit.Text = "Edit";
+            this.propEdit.UseVisualStyleBackColor = true;
+            this.propEdit.Click += new System.EventHandler(this.propEdit_Click);
             // 
             // Toolbox
             // 
@@ -181,8 +193,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picture)).EndInit();
             this.toolPanel.ResumeLayout(false);
             this.toolPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.frameDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frameTicker)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frameDuration)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -203,5 +215,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button propEdit;
     }
 }

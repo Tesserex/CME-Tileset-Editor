@@ -52,10 +52,11 @@ namespace Mega_Man_Tileset_Editor
             picture.Image = image;
             picture.Size = image.Size;
 
-            foreach (string propname in tileset.Properties.Keys)
+            foreach (TileProperties props in tileset.Properties)
             {
-                comboProperties.Items.Add(propname);
+                comboProperties.Items.Add(props.Name);
             }
+            comboProperties.Items.Add("<New...>");
 
             tilePanel.MinimumSize = new Size(tileset.TileSize, tileset.TileSize);
 
@@ -163,12 +164,37 @@ namespace Mega_Man_Tileset_Editor
 
         private void comboProperties_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tileset[selected].Properties = tileset.Properties[comboProperties.SelectedItem.ToString()];
+            if (comboProperties.SelectedIndex == comboProperties.Items.Count - 1) // <New...> selected
+            {
+                MegaMan.TileProperties properties = new TileProperties();
+                properties.Name = "NewProperties";
+                TilePropForm propForm = new TilePropForm(properties);
+                propForm.OkPressed += propForm_OkPressed;
+                propForm.Show();
+
+                comboProperties.SelectedIndex = 0;
+            }
+            else tileset[selected].Properties = tileset.GetProperties(comboProperties.SelectedItem.ToString());
+        }
+
+        private void propForm_OkPressed(object sender, EventArgs e)
+        {
+            TilePropForm propform = ((TilePropForm)sender);
+            tileset.AddProperties(propform.Properties);
+            if (!comboProperties.Items.Contains(propform.Properties.Name)) comboProperties.Items.Add(propform.Properties.Name);
         }
 
         private void textTileName_TextChanged(object sender, EventArgs e)
         {
             tileset[selected].Name = textTileName.Text;
+        }
+
+        private void propEdit_Click(object sender, EventArgs e)
+        {
+            TileProperties properties = tileset.GetProperties(comboProperties.SelectedItem.ToString());
+            TilePropForm propForm = new TilePropForm(properties);
+            propForm.OkPressed += propForm_OkPressed;
+            propForm.Show();
         }
     }
 }
