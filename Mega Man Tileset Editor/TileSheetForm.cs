@@ -16,6 +16,7 @@ namespace Mega_Man_Tileset_Editor
         private Tileset tileset;
         private Point highlight;
         private Pen highlightPen;
+        private Point oldLocation;
 
         public event Action<Point> SheetClicked;
         public bool Snap { get; set; }
@@ -43,6 +44,23 @@ namespace Mega_Man_Tileset_Editor
             Snap = true;
 
             ReDraw();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (!Environment.HasShutdownStarted)
+            {
+                e.Cancel = true;
+                this.oldLocation = this.Location;
+                this.Hide();
+            }
+            base.OnClosing(e);
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            if (this.Visible && this.oldLocation != Point.Empty) this.Location = this.oldLocation;
+            base.OnVisibleChanged(e);
         }
 
         private void ReDraw()

@@ -20,6 +20,8 @@ namespace Mega_Man_Tileset_Editor
         private int zoom = 1;
         private int cols;
 
+        private Point oldLocation;
+
         private bool _animate;
         private bool Animate
         {
@@ -39,10 +41,8 @@ namespace Mega_Man_Tileset_Editor
             InitializeComponent();
         }
 
-        public TileListForm(Form owner, Tileset tileset)
+        public TileListForm(Form owner, Tileset tileset) : this()
         {
-            InitializeComponent();
-
             selectedPen = new Pen(Brushes.Lime, 2);
             hotPen = new Pen(Brushes.Orange, 2);
 
@@ -60,6 +60,23 @@ namespace Mega_Man_Tileset_Editor
             tileset.TileAdded += new Action(tileset_TileAdded);
 
             Program.FrameTick += new Action(Program_FrameTick);
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (!Environment.HasShutdownStarted)
+            {
+                e.Cancel = true;
+                this.oldLocation = this.Location;
+                this.Hide();
+            }
+            base.OnClosing(e);
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            if (this.Visible && this.oldLocation != Point.Empty) this.Location = this.oldLocation;
+            base.OnVisibleChanged(e);
         }
 
         void Program_FrameTick()

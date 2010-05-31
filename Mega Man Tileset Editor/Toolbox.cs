@@ -16,6 +16,7 @@ namespace Mega_Man_Tileset_Editor
         private Bitmap image;
         private int selected;
         private int currentFrame;
+        private Point oldLocation;
 
         public int Selected
         {
@@ -76,6 +77,23 @@ namespace Mega_Man_Tileset_Editor
 
             tileset[selected].Sprite[currentFrame].SetSheetPosition(new Rectangle(point, new Size(tileset.TileSize, tileset.TileSize)));
             ReDraw();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (!Environment.HasShutdownStarted)
+            {
+                e.Cancel = true;
+                this.oldLocation = this.Location;
+                this.Hide();
+            }
+            base.OnClosing(e);
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            if (this.Visible && this.oldLocation != Point.Empty) this.Location = this.oldLocation;
+            base.OnVisibleChanged(e);
         }
 
         protected override void OnResize(EventArgs e)

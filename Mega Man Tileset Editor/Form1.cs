@@ -22,6 +22,12 @@ namespace Mega_Man_Tileset_Editor
             InitializeComponent();
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            Application.Exit();
+        }
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -158,6 +164,11 @@ namespace Mega_Man_Tileset_Editor
         private void previousToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.listForm != null) this.listForm.SelectPrev();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
