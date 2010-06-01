@@ -108,8 +108,8 @@ namespace Mega_Man_Tileset_Editor
 
         private void CenterImage()
         {
-            tileSheetPicture.Left = (sizingPanel.Width - tileSheetPicture.Width) / 2;
-            tileSheetPicture.Top = (sizingPanel.Height - tileSheetPicture.Height) / 2;
+            tileSheetPicture.Left = Math.Max(0, (sizingPanel.Width - tileSheetPicture.Width) / 2);
+            tileSheetPicture.Top = Math.Max(0, (sizingPanel.Height - tileSheetPicture.Height) / 2);
         }
 
         private void tileSheetPicture_Click(object sender, EventArgs e)
