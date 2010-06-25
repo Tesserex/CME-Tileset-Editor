@@ -32,7 +32,7 @@ namespace Mega_Man_Tileset_Editor
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = false;
-            dialog.Filter = "PNG (*.png)|*.png";
+            dialog.Filter = "PNG (*.png)|*.png|GIF (*.gif)|*.gif";
             dialog.Title = "Choose Image for Tile Sheet";
             
             DialogResult result = dialog.ShowDialog();
@@ -119,6 +119,11 @@ namespace Mega_Man_Tileset_Editor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveAs();
+        }
+
+        private void SaveAs()
+        {
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.OverwritePrompt = true;
             dialog.Filter = "XML (*.xml)|*.xml";
@@ -133,7 +138,8 @@ namespace Mega_Man_Tileset_Editor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tileset.Save();
+            if (tileset.FilePath != null) tileset.Save();
+            else SaveAs();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
