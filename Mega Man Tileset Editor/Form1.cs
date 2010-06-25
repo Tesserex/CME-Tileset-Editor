@@ -58,7 +58,7 @@ namespace Mega_Man_Tileset_Editor
         private void NewTileset(Image tileImage, string path)
         {
             tileset = new Tileset(tileImage, 16);
-            tileset.SheetPath = path;
+            tileset.SheetPathAbs = path;
 
             LoadTilesetForms();
         }
@@ -128,7 +128,6 @@ namespace Mega_Man_Tileset_Editor
             {
                 tileset.Save(dialog.FileName);
                 sheetForm.Text = dialog.FileName;
-                tileset.FilePath = dialog.FileName;
             }
         }
 
