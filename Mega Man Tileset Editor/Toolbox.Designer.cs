@@ -31,6 +31,7 @@
             this.tilePanel = new System.Windows.Forms.Panel();
             this.picture = new System.Windows.Forms.PictureBox();
             this.toolPanel = new System.Windows.Forms.Panel();
+            this.propEdit = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.frameTicker = new System.Windows.Forms.NumericUpDown();
             this.comboProperties = new System.Windows.Forms.ComboBox();
@@ -40,7 +41,6 @@
             this.textTileName = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.propEdit = new System.Windows.Forms.Button();
             this.tilePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
             this.toolPanel.SuspendLayout();
@@ -81,6 +81,16 @@
             this.toolPanel.Name = "toolPanel";
             this.toolPanel.Size = new System.Drawing.Size(128, 107);
             this.toolPanel.TabIndex = 1;
+            // 
+            // propEdit
+            // 
+            this.propEdit.Location = new System.Drawing.Point(84, 79);
+            this.propEdit.Name = "propEdit";
+            this.propEdit.Size = new System.Drawing.Size(39, 21);
+            this.propEdit.TabIndex = 10;
+            this.propEdit.Text = "Edit";
+            this.propEdit.UseVisualStyleBackColor = true;
+            this.propEdit.Click += new System.EventHandler(this.propEdit_Click);
             // 
             // label3
             // 
@@ -166,16 +176,6 @@
             this.label2.Size = new System.Drawing.Size(39, 13);
             this.label2.TabIndex = 9;
             this.label2.Text = "Name";
-            // 
-            // propEdit
-            // 
-            this.propEdit.Location = new System.Drawing.Point(84, 79);
-            this.propEdit.Name = "propEdit";
-            this.propEdit.Size = new System.Drawing.Size(39, 21);
-            this.propEdit.TabIndex = 10;
-            this.propEdit.Text = "Edit";
-            this.propEdit.UseVisualStyleBackColor = true;
-            this.propEdit.Click += new System.EventHandler(this.propEdit_Click);
             // 
             // Toolbox
             // 

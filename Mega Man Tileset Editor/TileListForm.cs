@@ -50,16 +50,23 @@ namespace Mega_Man_Tileset_Editor
 
             this.MdiParent = owner;
 
-            this.tileset = tileset;
-
-            if (tileset.Count > 0)
-            {
-                AdjustLayout(true);
-            }
-
-            tileset.TileAdded += new Action(tileset_TileAdded);
+            ChangeTileset(tileset);
 
             Program.FrameTick += new Action(Program_FrameTick);
+        }
+
+        public void ChangeTileset(Tileset tileset)
+        {
+            if (this.tileset != null)
+            {
+                this.tileset.TileAdded -= tileset_TileAdded;
+            }
+
+            this.tileset = tileset;
+
+            AdjustLayout(true);
+            
+            tileset.TileAdded += tileset_TileAdded;
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -215,6 +222,7 @@ namespace Mega_Man_Tileset_Editor
         {
             int old = this.cols;
             this.cols = (this.Width - 16) / (tileset.TileSize * zoom);
+            this.cols = Math.Min(this.cols, tileset.Count);
             if (this.cols != old)
             {
                 ResetImages();
@@ -226,13 +234,20 @@ namespace Mega_Man_Tileset_Editor
         {
             int rows = (int)Math.Ceiling(tileset.Count / (float)this.cols);
 
-            if (image != null) image.Dispose();
-            image = new Bitmap(this.cols * tileset.TileSize, rows * tileset.TileSize);
-            image.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
+            if (rows == 0 || cols == 0)
+            {
+                pictureList.Visible = false;
+            }
+            else
+            {
+                if (image != null) image.Dispose();
+                image = new Bitmap(this.cols * tileset.TileSize, rows * tileset.TileSize);
+                image.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
 
-            if (pictureList.Image != null) pictureList.Image.Dispose();
-            pictureList.Image = new Bitmap(this.cols * tileset.TileSize * zoom, rows * tileset.TileSize * zoom);
-            pictureList.Size = new Size(pictureList.Image.Size.Width, pictureList.Image.Size.Height);
+                if (pictureList.Image != null) pictureList.Image.Dispose();
+                pictureList.Image = new Bitmap(this.cols * tileset.TileSize * zoom, rows * tileset.TileSize * zoom);
+                pictureList.Size = new Size(pictureList.Image.Size.Width, pictureList.Image.Size.Height);
+            }
         }
 
         private void animateButton_Click(object sender, EventArgs e)
