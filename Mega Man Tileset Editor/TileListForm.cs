@@ -208,8 +208,8 @@ namespace Mega_Man_Tileset_Editor
             if (zoom < 5)
             {
                 zoom++;
-                if (pictureList.Image != null) pictureList.Size = new Size(pictureList.Image.Size.Width * zoom, pictureList.Image.Size.Height * zoom);
-                AdjustLayout(true);
+                ResizePicture();
+                ReDraw();
             }
         }
 
@@ -218,8 +218,8 @@ namespace Mega_Man_Tileset_Editor
             if (zoom > 1)
             {
                 zoom--;
-                if (pictureList.Image != null) pictureList.Size = new Size(pictureList.Image.Size.Width * zoom, pictureList.Image.Size.Height * zoom);
-                AdjustLayout(true);
+                ResizePicture();
+                ReDraw();
             }
         }
 
@@ -254,10 +254,17 @@ namespace Mega_Man_Tileset_Editor
                 image = new Bitmap(this.cols * tileset.TileSize, rows * tileset.TileSize);
                 image.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
 
-                if (pictureList.Image != null) pictureList.Image.Dispose();
-                pictureList.Image = new Bitmap(this.cols * tileset.TileSize * zoom, rows * tileset.TileSize * zoom);
-                pictureList.Size = new Size(pictureList.Image.Size.Width, pictureList.Image.Size.Height);
+                ResizePicture();
             }
+        }
+
+        private void ResizePicture()
+        {
+            if (this.image == null) return;
+
+            if (pictureList.Image != null) pictureList.Image.Dispose();
+            pictureList.Image = new Bitmap(this.image.Width * zoom, this.image.Height * zoom);
+            pictureList.Size = new Size(pictureList.Image.Size.Width, pictureList.Image.Size.Height);
         }
 
         private void animateButton_Click(object sender, EventArgs e)
