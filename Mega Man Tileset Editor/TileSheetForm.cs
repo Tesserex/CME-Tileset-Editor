@@ -13,7 +13,7 @@ namespace Mega_Man_Tileset_Editor
     public partial class TileSheetForm : Form
     {
         private Bitmap tileSheetImage;
-        private Tileset tileset;
+        public Tileset Tileset { get; private set; }
         private Point highlight;
         private Pen highlightPen;
         private Point oldLocation;
@@ -32,11 +32,14 @@ namespace Mega_Man_Tileset_Editor
 
             this.MdiParent = owner;
 
-            this.tileset = tileset;
+            this.Tileset = tileset;
             tileSheetImage = new Bitmap(tileset.Sheet.Width, tileset.Sheet.Height);
             tileSheetImage.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
             tileSheetPicture.Image = tileSheetImage;
             tileSheetPicture.Size = tileset.Sheet.Size;
+
+            if (tileset.FilePath == "") this.Text = "Untitled";
+            else this.Text = tileset.FilePath;
 
             CenterImage();
 
@@ -65,17 +68,17 @@ namespace Mega_Man_Tileset_Editor
 
         private void ReDraw()
         {
-            if (tileset == null) return;
-            if (tileset.Sheet == null) return;
+            if (Tileset == null) return;
+            if (Tileset.Sheet == null) return;
 
             using (Graphics g = Graphics.FromImage(tileSheetPicture.Image))
             {
                 g.Clear(Color.LightGray);
-                g.DrawImage(tileset.Sheet, 0, 0);
+                g.DrawImage(Tileset.Sheet, 0, 0);
 
                 if (highlight != Point.Empty)
                 {
-                    g.DrawRectangle(highlightPen, highlight.X, highlight.Y, tileset.TileSize, tileset.TileSize);
+                    g.DrawRectangle(highlightPen, highlight.X, highlight.Y, Tileset.TileSize, Tileset.TileSize);
                 }
             }
 
@@ -86,16 +89,16 @@ namespace Mega_Man_Tileset_Editor
         {
             if (Snap)
             {
-                highlight.X = e.X / tileset.TileSize;
-                highlight.Y = e.Y / tileset.TileSize;
+                highlight.X = e.X / Tileset.TileSize;
+                highlight.Y = e.Y / Tileset.TileSize;
 
-                highlight.X *= tileset.TileSize;
-                highlight.Y *= tileset.TileSize;
+                highlight.X *= Tileset.TileSize;
+                highlight.Y *= Tileset.TileSize;
             }
             else
             {
-                highlight.X = e.X - tileset.TileSize / 2;
-                highlight.Y = e.Y - tileset.TileSize / 2;
+                highlight.X = e.X - Tileset.TileSize / 2;
+                highlight.Y = e.Y - Tileset.TileSize / 2;
             }
 
             ReDraw();

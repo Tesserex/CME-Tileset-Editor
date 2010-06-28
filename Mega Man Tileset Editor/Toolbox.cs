@@ -47,12 +47,20 @@ namespace Mega_Man_Tileset_Editor
 
             this.MdiParent = owner;
 
+            ChangeTileset(tileset);
+        }
+
+        public void ChangeTileset(Tileset tileset)
+        {
             this.tileset = tileset;
+
+            if (image != null) image.Dispose();
             image = new Bitmap(tileset.TileSize, tileset.TileSize);
             image.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
             picture.Image = image;
             picture.Size = image.Size;
 
+            comboProperties.Items.Clear();
             foreach (TileProperties props in tileset.Properties)
             {
                 comboProperties.Items.Add(props.Name);

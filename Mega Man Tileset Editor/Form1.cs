@@ -12,10 +12,10 @@ namespace Mega_Man_Tileset_Editor
 {
     public partial class Form1 : Form
     {
-        private TileSheetForm sheetForm;
+        private List<TileSheetForm> sheetForms = new List<TileSheetForm>();
+        private TileSheetForm activeSheet;
         private TileListForm listForm;
         private Toolbox toolboxForm;
-        private Tileset tileset;
 
         public Form1()
         {
@@ -57,34 +57,54 @@ namespace Mega_Man_Tileset_Editor
 
         private void NewTileset(Image tileImage, string path)
         {
-            tileset = new Tileset(tileImage, 16);
+            Tileset tileset = new Tileset(tileImage, 16);
             tileset.SheetPathAbs = path;
 
-            LoadTilesetForms();
+            LoadTilesetForms(tileset);
         }
 
-        private void LoadTilesetForms()
+        private void LoadTilesetForms(Tileset tiles)
         {
-            if (tileset == null) return;
+            if (tiles == null) return;
 
-            sheetForm = new TileSheetForm(this, tileset);
-            sheetForm.Text = "Untitled";
-            sheetForm.Show();
-            sheetForm.Top = 120;
-            sheetForm.Left = 10;
+            if (listForm == null)
+            {
+                listForm = new TileListForm(this, tiles);
+                listForm.Show();
+                listForm.Top = 10;
+                listForm.Left = 10;
+                listForm.SelectedChanged += new Action<int>(listForm_SelectedChanged);
+            }
 
-            listForm = new TileListForm(this, tileset);
-            listForm.Show();
-            listForm.Top = 10;
-            listForm.Left = 10;
+            if (toolboxForm == null)
+            {
+                toolboxForm = new Toolbox(this, tiles);
+                toolboxForm.Show();
+                toolboxForm.Top = 120;
+                toolboxForm.Left = 350;
+            }
 
-            toolboxForm = new Toolbox(this, tileset);
-            toolboxForm.Show();
-            toolboxForm.Top = 120;
-            toolboxForm.Left = 350;
+            var sheet = new TileSheetForm(this, tiles);
+            sheet.Show();
+            sheet.Top = 120;
+            sheet.Left = 10;
+            sheet.SheetClicked += new Action<Point>(sheetForm_SheetClicked);
+            sheet.GotFocus += new EventHandler(sheet_GotFocus);
+            sheetForms.Add(sheet);
 
-            listForm.SelectedChanged += new Action<int>(listForm_SelectedChanged);
-            sheetForm.SheetClicked += new Action<Point>(sheetForm_SheetClicked);
+            ChangeSheet(sheet);
+        }
+
+        void sheet_GotFocus(object sender, EventArgs e)
+        {
+            ChangeSheet((TileSheetForm)sender);
+        }
+
+        public void ChangeSheet(TileSheetForm form)
+        {
+            this.activeSheet = form;
+            if (listForm != null) listForm.ChangeTileset(activeSheet.Tileset);
+            if (toolboxForm != null) toolboxForm.ChangeTileset(activeSheet.Tileset);
         }
 
         void sheetForm_SheetClicked(Point obj)
@@ -99,7 +119,7 @@ namespace Mega_Man_Tileset_Editor
 
         private void tileSheetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (sheetForm != null) sheetForm.Show();
+            
         }
 
         private void tilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -114,12 +134,12 @@ namespace Mega_Man_Tileset_Editor
 
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            sheetForm.Snap = customizeToolStripMenuItem.Checked;
+            foreach (var sheet in sheetForms) sheet.Snap = customizeToolStripMenuItem.Checked;
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (tileset == null) return;
+            if (activeSheet.Tileset == null) return;
             SaveAs();
         }
 
@@ -132,15 +152,15 @@ namespace Mega_Man_Tileset_Editor
 
             if (result == DialogResult.OK)
             {
-                tileset.Save(dialog.FileName);
-                sheetForm.Text = dialog.FileName;
+                activeSheet.Tileset.Save(dialog.FileName);
+                this.activeSheet.Text = dialog.FileName;
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (tileset == null) return;
-            if (tileset.FilePath != null) tileset.Save();
+            if (activeSheet == null) return;
+            if (activeSheet.Tileset.FilePath != null) activeSheet.Tileset.Save();
             else SaveAs();
         }
 
@@ -155,9 +175,9 @@ namespace Mega_Man_Tileset_Editor
             if (result == DialogResult.OK)
             {
                 string path = dialog.FileName;
-                tileset = new Tileset(path);
+                Tileset tileset = new Tileset(path);
 
-                LoadTilesetForms();
+                LoadTilesetForms(tileset);
 
                 toolboxForm.Selected = 0;
             }
