@@ -30,11 +30,11 @@
         {
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.buttonZoomIn = new System.Windows.Forms.ToolStripButton();
             this.buttonZoomOut = new System.Windows.Forms.ToolStripButton();
-            this.pictureList = new System.Windows.Forms.PictureBox();
             this.animateButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.pictureList = new System.Windows.Forms.PictureBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureList)).BeginInit();
             this.SuspendLayout();
@@ -66,17 +66,6 @@
             this.toolStripButton1.Text = "Add Tile";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::Mega_Man_Tileset_Editor.Properties.Resources.sync;
-            this.toolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "Sync Animation";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
-            // 
             // buttonZoomIn
             // 
             this.buttonZoomIn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -101,16 +90,6 @@
             this.buttonZoomOut.ToolTipText = "Zoom Out";
             this.buttonZoomOut.Click += new System.EventHandler(this.buttonZoomOut_Click);
             // 
-            // pictureList
-            // 
-            this.pictureList.Location = new System.Drawing.Point(6, 31);
-            this.pictureList.Name = "pictureList";
-            this.pictureList.Size = new System.Drawing.Size(424, 30);
-            this.pictureList.TabIndex = 0;
-            this.pictureList.TabStop = false;
-            this.pictureList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureList_MouseMove);
-            this.pictureList.Click += new System.EventHandler(this.pictureList_Click);
-            // 
             // animateButton
             // 
             this.animateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -120,6 +99,27 @@
             this.animateButton.Size = new System.Drawing.Size(23, 22);
             this.animateButton.Text = "Animate";
             this.animateButton.Click += new System.EventHandler(this.animateButton_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = global::Mega_Man_Tileset_Editor.Properties.Resources.sync;
+            this.toolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "Sync Animation";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // pictureList
+            // 
+            this.pictureList.Location = new System.Drawing.Point(6, 31);
+            this.pictureList.Name = "pictureList";
+            this.pictureList.Size = new System.Drawing.Size(424, 30);
+            this.pictureList.TabIndex = 0;
+            this.pictureList.TabStop = false;
+            this.pictureList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureList_MouseMove);
+            this.pictureList.Click += new System.EventHandler(this.pictureList_Click);
             // 
             // TileListForm
             // 

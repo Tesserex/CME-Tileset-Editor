@@ -22,7 +22,6 @@ namespace Mega_Man_Tileset_Editor
             timer = new Timer();
             timer.Interval = 1000 / 60;
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Start();
 
             Application.Run(new Form1());
         }

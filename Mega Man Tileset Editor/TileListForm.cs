@@ -31,6 +31,11 @@ namespace Mega_Man_Tileset_Editor
                 _animate = value;
                 animateButton.Checked = value;
                 Program.Animate(value);
+                if (tileset != null)
+                {
+                    if (value) tileset.ForEach(t => t.Sprite.Play());
+                    else tileset.ForEach(t => t.Sprite.Stop());
+                }
             }
         }
 
@@ -53,6 +58,8 @@ namespace Mega_Man_Tileset_Editor
             ChangeTileset(tileset);
 
             Program.FrameTick += new Action(Program_FrameTick);
+
+            Animate = true;
         }
 
         public void ChangeTileset(Tileset tileset)
@@ -67,6 +74,9 @@ namespace Mega_Man_Tileset_Editor
             AdjustLayout(true);
             
             tileset.TileAdded += tileset_TileAdded;
+
+            if (Animate) tileset.ForEach(t => t.Sprite.Play());
+            else tileset.ForEach(t => t.Sprite.Stop());
         }
 
         protected override void OnClosing(CancelEventArgs e)
