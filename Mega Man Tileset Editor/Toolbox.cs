@@ -52,7 +52,11 @@ namespace Mega_Man_Tileset_Editor
 
         public void ChangeTileset(Tileset tileset)
         {
+            if (tileset == this.tileset) return;
+
             this.tileset = tileset;
+            selected = 0;
+            currentFrame = 0;
 
             if (image != null) image.Dispose();
             image = new Bitmap(tileset.TileSize, tileset.TileSize);
@@ -141,12 +145,15 @@ namespace Mega_Man_Tileset_Editor
             if (tileset.Sheet == null) return;
             if (tileset.Count == 0) return;
 
-            using (Graphics g = Graphics.FromImage(picture.Image))
+            if (selected <= tileset.Count && currentFrame <= tileset[selected].Sprite.Count)
             {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                Image frame = tileset[selected].Sprite[currentFrame].CutTile;
-                if (frame != null) g.DrawImage(frame, 0, 0, picture.Image.Width, picture.Image.Height);
-                else g.Clear(Color.Black);
+                using (Graphics g = Graphics.FromImage(picture.Image))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                    Image frame = tileset[selected].Sprite[currentFrame].CutTile;
+                    if (frame != null) g.DrawImage(frame, 0, 0, picture.Image.Width, picture.Image.Height);
+                    else g.Clear(Color.Black);
+                }
             }
 
             picture.Refresh();
