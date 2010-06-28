@@ -76,6 +76,8 @@ namespace Mega_Man_Tileset_Editor
 
         public void SetFrameImage(Point point)
         {
+            if (selected < 0 || selected >= tileset.Count) return;
+
             Bitmap frame = new Bitmap(tileset.TileSize, tileset.TileSize);
             frame.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
             using (Graphics g = Graphics.FromImage(frame))
@@ -170,7 +172,8 @@ namespace Mega_Man_Tileset_Editor
 
         private void frameTicker_Change(object sender, EventArgs e)
         {
-            if (tileset == null || frameTicker.Value > tileset[selected].Sprite.Count) return;
+            if (tileset == null || selected < 0 || selected >= tileset.Count ||
+                frameTicker.Value > tileset[selected].Sprite.Count) return;
 
             currentFrame = (int)frameTicker.Value - 1;
             frameDuration.Value = tileset[selected].Sprite[currentFrame].Duration;
@@ -179,12 +182,15 @@ namespace Mega_Man_Tileset_Editor
 
         private void buttonAddFrame_Click(object sender, EventArgs e)
         {
+            if (selected < 0 || selected >= tileset.Count) return;
             tileset[selected].Sprite.AddFrame();
             frameTicker.Maximum = tileset[selected].Sprite.Count - 1;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            if (selected < 0 || selected >= tileset.Count) return;
+            if (currentFrame < 0 || currentFrame >= tileset[selected].Sprite.Count) return;
             tileset[selected].Sprite[currentFrame].Duration = (int)frameDuration.Value;
         }
 
@@ -212,11 +218,13 @@ namespace Mega_Man_Tileset_Editor
 
         private void textTileName_TextChanged(object sender, EventArgs e)
         {
+            if (selected < 0 || selected >= tileset.Count) return;
             tileset[selected].Name = textTileName.Text;
         }
 
         private void propEdit_Click(object sender, EventArgs e)
         {
+            if (comboProperties.SelectedItem == null) return;
             TileProperties properties = tileset.GetProperties(comboProperties.SelectedItem.ToString());
             TilePropForm propForm = new TilePropForm(properties);
             propForm.OkPressed += propForm_OkPressed;

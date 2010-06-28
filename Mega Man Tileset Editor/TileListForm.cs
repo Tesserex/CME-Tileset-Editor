@@ -198,7 +198,7 @@ namespace Mega_Man_Tileset_Editor
             if (zoom < 5)
             {
                 zoom++;
-                pictureList.Size = new Size(pictureList.Image.Size.Width * zoom, pictureList.Image.Size.Height * zoom);
+                if (pictureList.Image != null) pictureList.Size = new Size(pictureList.Image.Size.Width * zoom, pictureList.Image.Size.Height * zoom);
                 AdjustLayout(true);
             }
         }
@@ -208,7 +208,7 @@ namespace Mega_Man_Tileset_Editor
             if (zoom > 1)
             {
                 zoom--;
-                pictureList.Size = new Size(pictureList.Image.Size.Width * zoom, pictureList.Image.Size.Height * zoom);
+                if (pictureList.Image != null) pictureList.Size = new Size(pictureList.Image.Size.Width * zoom, pictureList.Image.Size.Height * zoom);
                 AdjustLayout(true);
             }
         }
