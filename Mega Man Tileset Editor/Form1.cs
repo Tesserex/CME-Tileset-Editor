@@ -119,6 +119,7 @@ namespace Mega_Man_Tileset_Editor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (tileset == null) return;
             SaveAs();
         }
 
@@ -138,6 +139,7 @@ namespace Mega_Man_Tileset_Editor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (tileset == null) return;
             if (tileset.FilePath != null) tileset.Save();
             else SaveAs();
         }
