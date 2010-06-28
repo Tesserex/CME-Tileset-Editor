@@ -118,6 +118,7 @@
             this.pictureList.Size = new System.Drawing.Size(424, 30);
             this.pictureList.TabIndex = 0;
             this.pictureList.TabStop = false;
+            this.pictureList.MouseLeave += new System.EventHandler(this.pictureList_MouseLeave);
             this.pictureList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureList_MouseMove);
             this.pictureList.Click += new System.EventHandler(this.pictureList_Click);
             // 

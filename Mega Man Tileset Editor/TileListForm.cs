@@ -271,5 +271,10 @@ namespace Mega_Man_Tileset_Editor
         {
             Animate = !Animate;
         }
+
+        private void pictureList_MouseLeave(object sender, EventArgs e)
+        {
+            hot = -1;
+        }
     }
 }
