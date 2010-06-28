@@ -184,7 +184,7 @@ namespace Mega_Man_Tileset_Editor
         {
             if (selected < 0 || selected >= tileset.Count) return;
             tileset[selected].Sprite.AddFrame();
-            frameTicker.Maximum = tileset[selected].Sprite.Count - 1;
+            frameTicker.Maximum = tileset[selected].Sprite.Count;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
