@@ -233,29 +233,25 @@ namespace Mega_Man_Tileset_Editor
             int old = this.cols;
             this.cols = (this.Width - 16) / (tileset.TileSize * zoom);
             this.cols = Math.Min(this.cols, tileset.Count);
+            pictureList.Visible = true;
             if (this.cols != old)
             {
-                ResetImages();
+                int rows = (int)Math.Ceiling(tileset.Count / (float)this.cols);
+
+                if (rows == 0 || cols == 0)
+                {
+                    pictureList.Visible = false;
+                }
+                else
+                {
+                    if (image != null) image.Dispose();
+                    image = new Bitmap(this.cols * tileset.TileSize, rows * tileset.TileSize);
+                    image.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
+
+                    ResizePicture();
+                }
             }
             if (this.cols != old || forceRedraw) ReDraw();
-        }
-
-        private void ResetImages()
-        {
-            int rows = (int)Math.Ceiling(tileset.Count / (float)this.cols);
-
-            if (rows == 0 || cols == 0)
-            {
-                pictureList.Visible = false;
-            }
-            else
-            {
-                if (image != null) image.Dispose();
-                image = new Bitmap(this.cols * tileset.TileSize, rows * tileset.TileSize);
-                image.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
-
-                ResizePicture();
-            }
         }
 
         private void ResizePicture()
