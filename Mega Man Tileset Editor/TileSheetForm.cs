@@ -17,19 +17,21 @@ namespace Mega_Man_Tileset_Editor
         private Point highlight;
         private Pen highlightPen;
         private Point oldLocation;
+        private Form1 owner;
 
         public event Action<Point> SheetClicked;
-        public bool Snap { get; set; }
+        public bool Snap { get { return owner.Snap; } }
 
         public TileSheetForm()
         {
             InitializeComponent();
         }
 
-        public TileSheetForm(Form owner, Tileset tileset)
+        public TileSheetForm(Form1 owner, Tileset tileset)
         {
             InitializeComponent();
 
+            this.owner = owner;
             this.MdiParent = owner;
 
             this.Tileset = tileset;
@@ -44,7 +46,6 @@ namespace Mega_Man_Tileset_Editor
             CenterImage();
 
             highlightPen = new Pen(Brushes.Green);
-            Snap = true;
 
             ReDraw();
         }

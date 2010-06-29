@@ -17,9 +17,13 @@ namespace Mega_Man_Tileset_Editor
         private TileListForm listForm;
         private Toolbox toolboxForm;
 
+        private bool snap;
+        public bool Snap { get { return snap; } private set { snap = value; customizeToolStripMenuItem.Checked = value; } }
+
         public Form1()
         {
             InitializeComponent();
+            Snap = true;
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -134,7 +138,7 @@ namespace Mega_Man_Tileset_Editor
 
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (var sheet in sheetForms) sheet.Snap = customizeToolStripMenuItem.Checked;
+            Snap = !Snap;
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
