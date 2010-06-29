@@ -12,7 +12,7 @@ namespace Mega_Man_Tileset_Editor
 {
     public partial class Form1 : Form
     {
-        private List<TileSheetForm> sheetForms = new List<TileSheetForm>();
+        private Dictionary<string, TileSheetForm> savedSheets = new Dictionary<string, TileSheetForm>();
         private TileSheetForm activeSheet;
         private TileListForm listForm;
         private Toolbox toolboxForm;
@@ -94,7 +94,8 @@ namespace Mega_Man_Tileset_Editor
             sheet.Left = 10;
             sheet.SheetClicked += new Action<Point>(sheetForm_SheetClicked);
             sheet.GotFocus += new EventHandler(sheet_GotFocus);
-            sheetForms.Add(sheet);
+            
+            if (!string.IsNullOrEmpty(tiles.FilePath)) savedSheets.Add(tiles.FilePath, sheet);
 
             ChangeSheet(sheet);
         }
@@ -156,8 +157,13 @@ namespace Mega_Man_Tileset_Editor
 
             if (result == DialogResult.OK)
             {
+                string oldname = activeSheet.Tileset.FilePath;
+
                 activeSheet.Tileset.Save(dialog.FileName);
                 this.activeSheet.Text = dialog.FileName;
+
+                if (!string.IsNullOrEmpty(oldname)) savedSheets.Remove(oldname);
+                savedSheets.Add(dialog.FileName, activeSheet);
             }
         }
 
@@ -179,6 +185,12 @@ namespace Mega_Man_Tileset_Editor
             if (result == DialogResult.OK)
             {
                 string path = dialog.FileName;
+                if (savedSheets.ContainsKey(path))
+                {
+                    savedSheets[path].Focus();
+                    return;
+                }
+
                 Tileset tileset = new Tileset(path);
 
                 LoadTilesetForms(tileset);
