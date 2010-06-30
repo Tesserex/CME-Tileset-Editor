@@ -10,9 +10,21 @@ namespace Mega_Man_Tileset_Editor
     public class TilesetEditor
     {
         private Tileset tileset;
+
         private bool dirty;
+        public bool Dirty
+        {
+            get { return dirty; }
+            set
+            {
+                bool old = dirty;
+                dirty = value;
+                if (value != old && DirtyChanged != null) DirtyChanged(value);
+            }
+        }
 
         public event Action TileAdded;
+        public event Action<bool> DirtyChanged;
 
         public static TilesetEditor FromFile(string path)
         {
@@ -26,7 +38,7 @@ namespace Mega_Man_Tileset_Editor
             Tileset tileset = new Tileset(sheet, tileSize);
             tileset.SheetPathAbs = imagePath;
             TilesetEditor editor = new TilesetEditor(tileset);
-            editor.dirty = true;
+            editor.Dirty = true;
             return editor;
         }
 
@@ -57,7 +69,7 @@ namespace Mega_Man_Tileset_Editor
         public void AddProperties(TileProperties properties)
         {
             tileset.AddProperties(properties);
-            dirty = true;
+            Dirty = true;
         }
 
         public void Play()
@@ -78,13 +90,13 @@ namespace Mega_Man_Tileset_Editor
         public void Save()
         {
             tileset.Save();
-            dirty = false;
+            Dirty = false;
         }
 
         public void SaveAs(string path)
         {
             tileset.Save(path);
-            dirty = false;
+            Dirty = false;
         }
 
         public void AddTile()
@@ -107,8 +119,9 @@ namespace Mega_Man_Tileset_Editor
         public void SetTileName(int tileIndex, string name)
         {
             if (tileIndex < 0 || tileIndex >= tileset.Count) return;
+            if (tileset[tileIndex].Name == name) return;
             tileset[tileIndex].Name = name;
-            dirty = true;
+            Dirty = true;
         }
 
         public int FrameCount(int tileIndex)
@@ -121,7 +134,7 @@ namespace Mega_Man_Tileset_Editor
         {
             if (tileIndex < 0 || tileIndex >= tileset.Count) return;
             tileset[tileIndex].Sprite.AddFrame();
-            dirty = true;
+            Dirty = true;
         }
 
         public int FrameDuration(int tileIndex, int frame)
@@ -133,21 +146,25 @@ namespace Mega_Man_Tileset_Editor
         public void SetFrameDuration(int tileIndex, int frame, int duration)
         {
             if (frame < 0 || frame >= FrameCount(tileIndex)) return;
+            if (tileset[tileIndex].Sprite[frame].Duration == duration) return;
             tileset[tileIndex].Sprite[frame].Duration = duration;
-            dirty = true;
+            Dirty = true;
         }
 
         public void SetProperties(int tileIndex, string name)
         {
             if (tileIndex < 0 || tileIndex >= tileset.Count) return;
+            if (tileset[tileIndex].Properties.Name == name) return;
             tileset[tileIndex].Properties = tileset.GetProperties(name);
-            dirty = true;
+            Dirty = true;
         }
 
         public void SetFramePosition(int tileIndex, int frame, Point location)
         {
             if (frame < 0 || frame >= FrameCount(tileIndex)) return;
+            if (tileset[tileIndex].Sprite[frame].SheetLocation.Location == location) return;
             tileset[tileIndex].Sprite[frame].SetSheetPosition(new Rectangle(location, new Size(tileset.TileSize, tileset.TileSize)));
+            Dirty = true;
         }
 
         public Image TileFrame(int tileIndex, int frame)

@@ -40,14 +40,23 @@ namespace Mega_Man_Tileset_Editor
             tileSheetPicture.Image = tileSheetImage;
             tileSheetPicture.Size = tileset.Sheet.Size;
 
-            if (tileset.FilePath == "") this.Text = "Untitled";
+            if (string.IsNullOrEmpty(tileset.FilePath)) this.Text = "Untitled";
             else this.Text = tileset.FilePath;
+
+            tileset.DirtyChanged += new Action<bool>(tileset_DirtyChanged);
 
             CenterImage();
 
             highlightPen = new Pen(Brushes.Green);
 
             ReDraw();
+        }
+
+        void tileset_DirtyChanged(bool dirty)
+        {
+            if (dirty) this.Text = "* ";
+            if (string.IsNullOrEmpty(Tileset.FilePath)) this.Text += "Untitled";
+            else this.Text += Tileset.FilePath;
         }
 
         protected override void OnClosing(CancelEventArgs e)
