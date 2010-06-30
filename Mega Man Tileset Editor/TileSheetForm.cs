@@ -13,7 +13,7 @@ namespace Mega_Man_Tileset_Editor
     public partial class TileSheetForm : Form
     {
         private Bitmap tileSheetImage;
-        public Tileset Tileset { get; private set; }
+        public TilesetEditor Tileset { get; private set; }
         private Point highlight;
         private Pen highlightPen;
         private Point oldLocation;
@@ -27,7 +27,7 @@ namespace Mega_Man_Tileset_Editor
             InitializeComponent();
         }
 
-        public TileSheetForm(Form1 owner, Tileset tileset)
+        public TileSheetForm(Form1 owner, TilesetEditor tileset)
         {
             InitializeComponent();
 

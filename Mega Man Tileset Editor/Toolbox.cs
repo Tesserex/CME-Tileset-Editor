@@ -12,7 +12,7 @@ namespace Mega_Man_Tileset_Editor
 {
     public partial class Toolbox : Form
     {
-        private Tileset tileset;
+        private TilesetEditor tileset;
         private Bitmap image;
         private int selected;
         private int currentFrame;
@@ -28,10 +28,10 @@ namespace Mega_Man_Tileset_Editor
                 currentFrame = 0;
                 frameTicker.Value = 1;
                 frameTicker.Minimum = 1;
-                frameTicker.Maximum = tileset[selected].Sprite.Count;
-                frameDuration.Value = (tileset[selected].Sprite.Count > 0) ? tileset[selected].Sprite[0].Duration : 0;
-                textTileName.Text = tileset[selected].Name;
-                comboProperties.SelectedItem = tileset[selected].Properties.Name;
+                frameTicker.Maximum = tileset.FrameCount(selected);
+                frameDuration.Value = tileset.FrameDuration(selected, 0);
+                textTileName.Text = tileset.TileName(selected);
+                comboProperties.SelectedItem = tileset.TileProperties(selected);
                 ReDraw();
             }
         }
@@ -41,7 +41,7 @@ namespace Mega_Man_Tileset_Editor
             InitializeComponent();
         }
 
-        public Toolbox(Form owner, Tileset tileset)
+        public Toolbox(Form owner, TilesetEditor tileset)
         {
             InitializeComponent();
 
@@ -50,7 +50,7 @@ namespace Mega_Man_Tileset_Editor
             ChangeTileset(tileset);
         }
 
-        public void ChangeTileset(Tileset tileset)
+        public void ChangeTileset(TilesetEditor tileset)
         {
             if (tileset == this.tileset) return;
 
@@ -65,9 +65,9 @@ namespace Mega_Man_Tileset_Editor
             picture.Size = image.Size;
 
             comboProperties.Items.Clear();
-            foreach (TileProperties props in tileset.Properties)
+            foreach (string name in tileset.PropertyNames)
             {
-                comboProperties.Items.Add(props.Name);
+                comboProperties.Items.Add(name);
             }
             comboProperties.Items.Add("<New...>");
 
@@ -89,7 +89,7 @@ namespace Mega_Man_Tileset_Editor
                 g.DrawImage(tileset.Sheet, 0, 0, new Rectangle(point.X, point.Y, tileset.TileSize, tileset.TileSize), GraphicsUnit.Pixel);
             }
 
-            tileset[selected].Sprite[currentFrame].SetSheetPosition(new Rectangle(point, new Size(tileset.TileSize, tileset.TileSize)));
+            tileset.SetFramePosition(selected, currentFrame, point);
             ReDraw();
         }
 
@@ -145,12 +145,12 @@ namespace Mega_Man_Tileset_Editor
             if (tileset.Sheet == null) return;
             if (tileset.Count == 0) return;
 
-            if (selected <= tileset.Count && currentFrame <= tileset[selected].Sprite.Count)
+            if (selected <= tileset.Count && currentFrame <= tileset.FrameCount(selected))
             {
                 using (Graphics g = Graphics.FromImage(picture.Image))
                 {
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                    Image frame = tileset[selected].Sprite[currentFrame].CutTile;
+                    Image frame = tileset.TileFrame(selected, currentFrame);
                     if (frame != null) g.DrawImage(frame, 0, 0, picture.Image.Width, picture.Image.Height);
                     else g.Clear(Color.Black);
                 }
@@ -180,29 +180,26 @@ namespace Mega_Man_Tileset_Editor
         private void frameTicker_Change(object sender, EventArgs e)
         {
             if (tileset == null || selected < 0 || selected >= tileset.Count ||
-                frameTicker.Value > tileset[selected].Sprite.Count) return;
+                frameTicker.Value > tileset.FrameCount(selected)) return;
 
             currentFrame = (int)frameTicker.Value - 1;
-            frameDuration.Value = tileset[selected].Sprite[currentFrame].Duration;
+            frameDuration.Value = tileset.FrameDuration(selected, currentFrame);
             ReDraw();
         }
 
         private void buttonAddFrame_Click(object sender, EventArgs e)
         {
-            if (selected < 0 || selected >= tileset.Count) return;
-            tileset[selected].Sprite.AddFrame();
-            frameTicker.Maximum = tileset[selected].Sprite.Count;
+            tileset.AddFrame(selected);
+            frameTicker.Maximum = tileset.FrameCount(selected);
             frameTicker.Value = frameTicker.Maximum;
-            currentFrame = tileset[selected].Sprite.Count - 1;
-            frameDuration.Value = tileset[selected].Sprite[currentFrame].Duration;
+            currentFrame = tileset.FrameCount(selected) - 1;
+            frameDuration.Value = tileset.FrameDuration(selected, currentFrame);
             ReDraw();
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            if (selected < 0 || selected >= tileset.Count) return;
-            if (currentFrame < 0 || currentFrame >= tileset[selected].Sprite.Count) return;
-            tileset[selected].Sprite[currentFrame].Duration = (int)frameDuration.Value;
+            tileset.SetFrameDuration(selected, currentFrame, (int)frameDuration.Value);
         }
 
         private void comboProperties_SelectedIndexChanged(object sender, EventArgs e)
@@ -217,7 +214,7 @@ namespace Mega_Man_Tileset_Editor
 
                 comboProperties.SelectedIndex = 0;
             }
-            else tileset[selected].Properties = tileset.GetProperties(comboProperties.SelectedItem.ToString());
+            else tileset.SetProperties(selected, comboProperties.SelectedItem.ToString());
         }
 
         private void propForm_OkPressed(object sender, EventArgs e)
@@ -229,8 +226,7 @@ namespace Mega_Man_Tileset_Editor
 
         private void textTileName_TextChanged(object sender, EventArgs e)
         {
-            if (selected < 0 || selected >= tileset.Count) return;
-            tileset[selected].Name = textTileName.Text;
+            tileset.SetTileName(selected, textTileName.Text);
         }
 
         private void propEdit_Click(object sender, EventArgs e)

@@ -12,7 +12,7 @@ namespace Mega_Man_Tileset_Editor
 {
     public partial class TileListForm : Form
     {
-        private Tileset tileset;
+        private TilesetEditor tileset;
         private Bitmap image;
         private int selected;
         private int hot;
@@ -33,8 +33,8 @@ namespace Mega_Man_Tileset_Editor
                 Program.Animate(value);
                 if (tileset != null)
                 {
-                    if (value) tileset.ForEach(t => t.Sprite.Play());
-                    else tileset.ForEach(t => t.Sprite.Stop());
+                    if (value) tileset.Play();
+                    else tileset.Stop();
                 }
             }
         }
@@ -46,7 +46,7 @@ namespace Mega_Man_Tileset_Editor
             InitializeComponent();
         }
 
-        public TileListForm(Form owner, Tileset tileset) : this()
+        public TileListForm(Form owner, TilesetEditor tileset) : this()
         {
             selectedPen = new Pen(Brushes.Lime, 2);
             hotPen = new Pen(Brushes.Orange, 2);
@@ -62,7 +62,7 @@ namespace Mega_Man_Tileset_Editor
             Animate = true;
         }
 
-        public void ChangeTileset(Tileset tileset)
+        public void ChangeTileset(TilesetEditor tileset)
         {
             if (this.tileset != null)
             {
@@ -75,8 +75,8 @@ namespace Mega_Man_Tileset_Editor
             
             tileset.TileAdded += tileset_TileAdded;
 
-            if (Animate) tileset.ForEach(t => t.Sprite.Play());
-            else tileset.ForEach(t => t.Sprite.Stop());
+            if (Animate) tileset.Play();
+            else tileset.Stop();
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -99,7 +99,7 @@ namespace Mega_Man_Tileset_Editor
         void Program_FrameTick()
         {
             if (tileset == null) return;
-            tileset.ForEach((t) => t.Sprite.Update());
+            tileset.Update();
             ReDraw();
         }
 
@@ -140,7 +140,7 @@ namespace Mega_Man_Tileset_Editor
                 int hotX = -100, hotY = -100, selectedX = -100, selectedY = -100;
                 for (int i = 0; i < tileset.Count; i++ )
                 {
-                    tileset[i].Draw(g, col * tileset.TileSize, y);
+                    tileset.DrawTile(i, g, col * tileset.TileSize, y);
                     if (i == hot)
                     {
                         hotX = col * tileset.TileSize;
@@ -197,10 +197,8 @@ namespace Mega_Man_Tileset_Editor
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            foreach (Tile tile in tileset)
-            {
-                tile.Sprite.Reset();
-            }
+            tileset.Stop();
+            tileset.Play();
         }
 
         private void buttonZoomIn_Click(object sender, EventArgs e)

@@ -43,31 +43,20 @@ namespace Mega_Man_Tileset_Editor
             if (result == DialogResult.OK)
             {
                 string path = dialog.FileName;
-                Image sheet;
 
                 try
                 {
-                    sheet = Image.FromFile(path);
+                    TilesetEditor editor = TilesetEditor.CreateNew(path, 16);
+                    LoadTilesetForms(editor);
                 }
                 catch
                 {
                     MessageBox.Show("The selected image file either doesn't exist or could not be read as an image.", "Image Load Error", MessageBoxButtons.OK);
-                    return;
                 }
-
-                NewTileset(sheet, path);
             }
         }
 
-        private void NewTileset(Image tileImage, string path)
-        {
-            Tileset tileset = new Tileset(tileImage, 16);
-            tileset.SheetPathAbs = path;
-
-            LoadTilesetForms(tileset);
-        }
-
-        private void LoadTilesetForms(Tileset tiles)
+        private void LoadTilesetForms(TilesetEditor tiles)
         {
             if (tiles == null) return;
 
@@ -159,7 +148,7 @@ namespace Mega_Man_Tileset_Editor
             {
                 string oldname = activeSheet.Tileset.FilePath;
 
-                activeSheet.Tileset.Save(dialog.FileName);
+                activeSheet.Tileset.SaveAs(dialog.FileName);
                 this.activeSheet.Text = dialog.FileName;
 
                 if (!string.IsNullOrEmpty(oldname)) savedSheets.Remove(oldname);
@@ -170,8 +159,8 @@ namespace Mega_Man_Tileset_Editor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (activeSheet == null) return;
-            if (activeSheet.Tileset.FilePath != null) activeSheet.Tileset.Save();
-            else SaveAs();
+            if (string.IsNullOrEmpty(activeSheet.Tileset.FilePath)) SaveAs();
+            else activeSheet.Tileset.Save();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -191,7 +180,7 @@ namespace Mega_Man_Tileset_Editor
                     return;
                 }
 
-                Tileset tileset = new Tileset(path);
+                TilesetEditor tileset = TilesetEditor.FromFile(path);
 
                 LoadTilesetForms(tileset);
 

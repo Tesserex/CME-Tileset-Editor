@@ -127,6 +127,7 @@
     <Compile Include="TilePropForm.Designer.cs">
       <DependentUpon>TilePropForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TilesetEditor.cs" />
     <Compile Include="TileSheetForm.cs">
       <SubType>Form</SubType>
     </Compile>
