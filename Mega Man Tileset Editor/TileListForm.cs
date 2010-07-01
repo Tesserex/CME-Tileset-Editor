@@ -213,6 +213,7 @@ namespace Mega_Man_Tileset_Editor
             if (zoom < 5)
             {
                 zoom++;
+                AdjustLayout(false);
                 ResizePicture();
                 ReDraw();
             }
@@ -223,6 +224,7 @@ namespace Mega_Man_Tileset_Editor
             if (zoom > 1)
             {
                 zoom--;
+                AdjustLayout(false);
                 ResizePicture();
                 ReDraw();
             }
