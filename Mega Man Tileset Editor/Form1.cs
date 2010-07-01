@@ -97,7 +97,7 @@ namespace Mega_Man_Tileset_Editor
 
         void tiles_PathChanged(string oldname, string newname)
         {
-            if (!savedSheets.ContainsKey(oldname)) return;
+            if (oldname == null || !savedSheets.ContainsKey(oldname)) return;
             var sheet = savedSheets[oldname];
             if (!string.IsNullOrEmpty(oldname)) savedSheets.Remove(oldname);
             savedSheets.Add(newname, sheet);
