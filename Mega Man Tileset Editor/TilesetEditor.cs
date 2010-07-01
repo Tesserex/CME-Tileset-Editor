@@ -203,14 +203,15 @@ namespace Mega_Man_Tileset_Editor
 
         public bool Close()
         {
+            bool ret = true;
             if (Dirty)
             {
                 var result = MessageBox.Show("Save changes to " + Name + "?", "CME Tileset Editor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
-                if (result == DialogResult.Cancel) return false;
-                if (result == DialogResult.Yes) return Save();
+                if (result == DialogResult.Cancel) ret = false;
+                if (result == DialogResult.Yes) ret = Save();
             }
-            if (Closed != null) Closed(this);
-            return true;
+            if (ret && Closed != null) Closed(this);
+            return ret;
         }
     }
 }
