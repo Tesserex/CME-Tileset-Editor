@@ -83,5 +83,25 @@ namespace Mega_Man_Tileset_Editor
         {
             this.Close();
         }
+
+        private void gravMult_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.GravityMult = (float)gravMult.Value;
+        }
+
+        private void checkBlocking_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Blocking = checkBlocking.Checked;
+        }
+
+        private void checkLethal_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Lethal = checkLethal.Checked;
+        }
+
+        private void checkClimb_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Climbable = checkClimb.Checked;
+        }
     }
 }

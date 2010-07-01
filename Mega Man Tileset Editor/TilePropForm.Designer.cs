@@ -79,6 +79,7 @@
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Location = new System.Drawing.Point(153, 172);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(58, 22);
@@ -107,6 +108,7 @@
             this.checkBlocking.TabIndex = 4;
             this.checkBlocking.Text = "Blocking";
             this.checkBlocking.UseVisualStyleBackColor = true;
+            this.checkBlocking.CheckedChanged += new System.EventHandler(this.checkBlocking_CheckedChanged);
             // 
             // checkLethal
             // 
@@ -117,6 +119,7 @@
             this.checkLethal.TabIndex = 5;
             this.checkLethal.Text = "Lethal";
             this.checkLethal.UseVisualStyleBackColor = true;
+            this.checkLethal.CheckedChanged += new System.EventHandler(this.checkLethal_CheckedChanged);
             // 
             // checkClimb
             // 
@@ -126,6 +129,7 @@
             this.checkClimb.TabIndex = 0;
             this.checkClimb.Text = "Climbable";
             this.checkClimb.UseVisualStyleBackColor = true;
+            this.checkClimb.CheckedChanged += new System.EventHandler(this.checkClimb_CheckedChanged);
             // 
             // label2
             // 
@@ -335,6 +339,7 @@
             0,
             0,
             0});
+            this.gravMult.ValueChanged += new System.EventHandler(this.gravMult_ValueChanged);
             // 
             // label7
             // 
