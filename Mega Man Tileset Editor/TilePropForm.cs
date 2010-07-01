@@ -13,13 +13,15 @@ namespace Mega_Man_Tileset_Editor
     public partial class TilePropForm : Form
     {
         public TileProperties Properties { get; private set; }
+        public TilesetEditor Tileset { get; private set; }
 
         public event EventHandler OkPressed;
 
-        public TilePropForm(TileProperties properties)
+        public TilePropForm(TilesetEditor editor, TileProperties properties)
         {
             InitializeComponent();
 
+            this.Tileset = editor;
             this.Properties = properties;
             name.Text = properties.Name;
             checkBlocking.Checked = properties.Blocking;
@@ -31,6 +33,8 @@ namespace Mega_Man_Tileset_Editor
             pushY.Value = (decimal)properties.PushY;
             dragX.Value = (decimal)properties.DragX;
             dragY.Value = (decimal)properties.DragY;
+
+            Tileset.Closed += (e) => this.Close();
         }
 
         private void name_TextChanged(object sender, EventArgs e)
@@ -70,6 +74,7 @@ namespace Mega_Man_Tileset_Editor
 
         private void okButton_Click(object sender, EventArgs e)
         {
+            Tileset.AddProperties(Properties);
             if (OkPressed != null) OkPressed(this, new EventArgs());
             this.Close();
         }

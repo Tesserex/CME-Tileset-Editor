@@ -224,7 +224,7 @@ namespace Mega_Man_Tileset_Editor
             {
                 MegaMan.TileProperties properties = new TileProperties();
                 properties.Name = "NewProperties";
-                TilePropForm propForm = new TilePropForm(properties);
+                TilePropForm propForm = new TilePropForm(tileset, properties);
                 propForm.OkPressed += propForm_OkPressed;
                 propForm.Show();
 
@@ -235,9 +235,8 @@ namespace Mega_Man_Tileset_Editor
 
         private void propForm_OkPressed(object sender, EventArgs e)
         {
-            if (tileset == null) return;
             TilePropForm propform = ((TilePropForm)sender);
-            tileset.AddProperties(propform.Properties);
+            if (tileset != propform.Tileset) return;
             if (!comboProperties.Items.Contains(propform.Properties.Name)) comboProperties.Items.Add(propform.Properties.Name);
         }
 
@@ -252,7 +251,7 @@ namespace Mega_Man_Tileset_Editor
             if (tileset == null) return;
             if (comboProperties.SelectedItem == null) return;
             TileProperties properties = tileset.GetProperties(comboProperties.SelectedItem.ToString());
-            TilePropForm propForm = new TilePropForm(properties);
+            TilePropForm propForm = new TilePropForm(tileset, properties);
             propForm.OkPressed += propForm_OkPressed;
             propForm.Show();
         }
