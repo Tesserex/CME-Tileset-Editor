@@ -16,7 +16,6 @@ namespace Mega_Man_Tileset_Editor
         public TilesetEditor Tileset { get; private set; }
         private Point highlight;
         private Pen highlightPen;
-        private Point oldLocation;
         private Form1 owner;
 
         public event Action<Point> SheetClicked;
@@ -40,8 +39,7 @@ namespace Mega_Man_Tileset_Editor
             tileSheetPicture.Image = tileSheetImage;
             tileSheetPicture.Size = tileset.Sheet.Size;
 
-            if (string.IsNullOrEmpty(tileset.FilePath)) this.Text = "Untitled";
-            else this.Text = tileset.FilePath;
+            this.Text = tileset.Name;
 
             tileset.DirtyChanged += new Action<bool>(tileset_DirtyChanged);
 
@@ -55,25 +53,16 @@ namespace Mega_Man_Tileset_Editor
         void tileset_DirtyChanged(bool dirty)
         {
             if (dirty) this.Text = "* ";
-            if (string.IsNullOrEmpty(Tileset.FilePath)) this.Text += "Untitled";
-            else this.Text += Tileset.FilePath;
+            this.Text += Tileset.Name;
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (!Environment.HasShutdownStarted)
+            if (Tileset.Close())
             {
-                e.Cancel = true;
-                this.oldLocation = this.Location;
-                this.Hide();
+                base.OnClosing(e);
             }
-            base.OnClosing(e);
-        }
-
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            if (this.Visible && this.oldLocation != Point.Empty) this.Location = this.oldLocation;
-            base.OnVisibleChanged(e);
+            else e.Cancel = true;
         }
 
         private void ReDraw()

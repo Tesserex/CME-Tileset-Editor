@@ -72,11 +72,14 @@ namespace Mega_Man_Tileset_Editor
             this.tileset = tileset;
 
             AdjustLayout(true);
-            
-            tileset.TileAdded += tileset_TileAdded;
 
-            if (Animate) tileset.Play();
-            else tileset.Stop();
+            if (tileset != null)
+            {
+                tileset.TileAdded += tileset_TileAdded;
+
+                if (Animate) tileset.Play();
+                else tileset.Stop();
+            }
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -176,6 +179,8 @@ namespace Mega_Man_Tileset_Editor
 
         private void pictureList_MouseMove(object sender, MouseEventArgs e)
         {
+            if (tileset == null) return;
+
             int col = e.X / (tileset.TileSize * zoom);
             int row = e.Y / (tileset.TileSize * zoom);
 
@@ -192,11 +197,13 @@ namespace Mega_Man_Tileset_Editor
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            if (tileset == null) return;
             tileset.AddTile();
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
+            if (tileset == null) return;
             tileset.Stop();
             tileset.Play();
         }
@@ -229,24 +236,32 @@ namespace Mega_Man_Tileset_Editor
         private void AdjustLayout(bool forceRedraw)
         {
             int old = this.cols;
-            this.cols = (this.Width - 16) / (tileset.TileSize * zoom);
-            this.cols = Math.Min(this.cols, tileset.Count);
-            pictureList.Visible = true;
-            if (this.cols != old)
+            if (tileset == null)
             {
-                int rows = (int)Math.Ceiling(tileset.Count / (float)this.cols);
-
-                if (rows == 0 || cols == 0)
+                pictureList.Visible = false;
+                this.cols = 0;
+            }
+            else
+            {
+                this.cols = (this.Width - 16) / (tileset.TileSize * zoom);
+                this.cols = Math.Min(this.cols, tileset.Count);
+                pictureList.Visible = true;
+                if (this.cols != old)
                 {
-                    pictureList.Visible = false;
-                }
-                else
-                {
-                    if (image != null) image.Dispose();
-                    image = new Bitmap(this.cols * tileset.TileSize, rows * tileset.TileSize);
-                    image.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
+                    int rows = (int)Math.Ceiling(tileset.Count / (float)this.cols);
 
-                    ResizePicture();
+                    if (rows == 0 || cols == 0)
+                    {
+                        pictureList.Visible = false;
+                    }
+                    else
+                    {
+                        if (image != null) image.Dispose();
+                        image = new Bitmap(this.cols * tileset.TileSize, rows * tileset.TileSize);
+                        image.SetResolution(tileset.Sheet.HorizontalResolution, tileset.Sheet.VerticalResolution);
+
+                        ResizePicture();
+                    }
                 }
             }
             if (this.cols != old || forceRedraw) ReDraw();

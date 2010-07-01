@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MegaMan;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Mega_Man_Tileset_Editor
 {
@@ -25,6 +26,8 @@ namespace Mega_Man_Tileset_Editor
 
         public event Action TileAdded;
         public event Action<bool> DirtyChanged;
+        public event Action<string, string> PathChanged;
+        public event Action<TilesetEditor> Closed;
 
         public static TilesetEditor FromFile(string path)
         {
@@ -45,6 +48,15 @@ namespace Mega_Man_Tileset_Editor
         private TilesetEditor(Tileset tileset)
         {
             this.tileset = tileset;
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(tileset.FilePath)) return "Untitled";
+                return System.IO.Path.GetFileNameWithoutExtension(tileset.FilePath);
+            }
         }
 
         public string FilePath { get { return tileset.FilePath; } }
@@ -87,16 +99,32 @@ namespace Mega_Man_Tileset_Editor
             tileset.ForEach(t => t.Sprite.Update());
         }
 
-        public void Save()
+        public bool Save()
         {
-            tileset.Save();
+            if (string.IsNullOrEmpty(tileset.FilePath)) return SaveAs();
+            else tileset.Save();
             Dirty = false;
+            return true;
         }
 
-        public void SaveAs(string path)
+        public bool SaveAs()
         {
-            tileset.Save(path);
-            Dirty = false;
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.OverwritePrompt = true;
+            dialog.Filter = "XML (*.xml)|*.xml";
+            DialogResult result = dialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                string oldName = tileset.FilePath;
+
+                tileset.Save(dialog.FileName);
+
+                if (oldName != dialog.FileName && PathChanged != null) PathChanged(oldName, dialog.FileName);
+                Dirty = false;
+                return true;
+            }
+            return false;
         }
 
         public void AddTile()
@@ -171,6 +199,18 @@ namespace Mega_Man_Tileset_Editor
         {
             if (frame < 0 || frame >= FrameCount(tileIndex)) return null;
             return tileset[tileIndex].Sprite[frame].CutTile;
+        }
+
+        public bool Close()
+        {
+            if (Dirty)
+            {
+                var result = MessageBox.Show("Save changes to " + Name + "?", "CME Tileset Editor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                if (result == DialogResult.Cancel) return false;
+                if (result == DialogResult.Yes) return Save();
+            }
+            if (Closed != null) Closed(this);
+            return true;
         }
     }
 }

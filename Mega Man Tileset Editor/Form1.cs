@@ -83,10 +83,31 @@ namespace Mega_Man_Tileset_Editor
             sheet.Left = 10;
             sheet.SheetClicked += new Action<Point>(sheetForm_SheetClicked);
             sheet.GotFocus += new EventHandler(sheet_GotFocus);
-            
-            if (!string.IsNullOrEmpty(tiles.FilePath)) savedSheets.Add(tiles.FilePath, sheet);
+
+            if (!string.IsNullOrEmpty(tiles.FilePath))
+            {
+                savedSheets.Add(tiles.FilePath, sheet);
+            }
+            tiles.Closed += new Action<TilesetEditor>(tiles_Closed);
 
             ChangeSheet(sheet);
+
+            tiles.PathChanged += new Action<string, string>(tiles_PathChanged);
+        }
+
+        void tiles_PathChanged(string oldname, string newname)
+        {
+            if (!savedSheets.ContainsKey(oldname)) return;
+            var sheet = savedSheets[oldname];
+            if (!string.IsNullOrEmpty(oldname)) savedSheets.Remove(oldname);
+            savedSheets.Add(newname, sheet);
+        }
+
+        void tiles_Closed(TilesetEditor obj)
+        {
+            if (obj.FilePath != null) savedSheets.Remove(obj.FilePath);
+            toolboxForm.ChangeTileset(null);
+            listForm.ChangeTileset(null);
         }
 
         void sheet_GotFocus(object sender, EventArgs e)
@@ -134,33 +155,13 @@ namespace Mega_Man_Tileset_Editor
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (activeSheet.Tileset == null) return;
-            SaveAs();
-        }
-
-        private void SaveAs()
-        {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.OverwritePrompt = true;
-            dialog.Filter = "XML (*.xml)|*.xml";
-            DialogResult result = dialog.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                string oldname = activeSheet.Tileset.FilePath;
-
-                activeSheet.Tileset.SaveAs(dialog.FileName);
-                this.activeSheet.Text = dialog.FileName;
-
-                if (!string.IsNullOrEmpty(oldname)) savedSheets.Remove(oldname);
-                savedSheets.Add(dialog.FileName, activeSheet);
-            }
+            activeSheet.Tileset.SaveAs();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (activeSheet == null) return;
-            if (string.IsNullOrEmpty(activeSheet.Tileset.FilePath)) SaveAs();
-            else activeSheet.Tileset.Save();
+            activeSheet.Tileset.Save();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
