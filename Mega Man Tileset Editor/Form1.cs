@@ -26,12 +26,6 @@ namespace Mega_Man_Tileset_Editor
             Snap = true;
         }
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            Application.Exit();
-        }
-
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();

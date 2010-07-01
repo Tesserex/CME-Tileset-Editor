@@ -104,9 +104,9 @@ namespace Mega_Man_Tileset_Editor
             ReDraw();
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (!Environment.HasShutdownStarted)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
                 this.oldLocation = this.Location;
