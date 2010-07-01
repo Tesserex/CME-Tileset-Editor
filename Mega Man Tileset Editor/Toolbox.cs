@@ -68,11 +68,7 @@ namespace Mega_Man_Tileset_Editor
                 picture.Image = image;
                 picture.Size = image.Size;
 
-                foreach (string name in tileset.PropertyNames)
-                {
-                    comboProperties.Items.Add(name);
-                }
-                comboProperties.Items.Add("<New...>");
+                FillPropertyList();
 
                 tilePanel.MinimumSize = new Size(tileset.TileSize, tileset.TileSize);
 
@@ -80,6 +76,17 @@ namespace Mega_Man_Tileset_Editor
             }
 
             ReDraw();
+        }
+
+        private void FillPropertyList()
+        {
+            if (tileset == null) return;
+            comboProperties.Items.Clear();
+            foreach (string name in tileset.PropertyNames)
+            {
+                comboProperties.Items.Add(name);
+            }
+            comboProperties.Items.Add("<New...>");
         }
 
         public void SetFrameImage(Point point)
@@ -237,7 +244,7 @@ namespace Mega_Man_Tileset_Editor
         {
             TilePropForm propform = ((TilePropForm)sender);
             if (tileset != propform.Tileset) return;
-            if (!comboProperties.Items.Contains(propform.Properties.Name)) comboProperties.Items.Add(propform.Properties.Name);
+            FillPropertyList();
         }
 
         private void textTileName_TextChanged(object sender, EventArgs e)

@@ -130,6 +130,7 @@ namespace Mega_Man_Tileset_Editor
         public void AddTile()
         {
             tileset.AddTile();
+            Dirty = true;
             if (TileAdded != null) TileAdded();
         }
 
