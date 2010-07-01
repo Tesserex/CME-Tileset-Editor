@@ -52,8 +52,8 @@ namespace Mega_Man_Tileset_Editor
 
         void tileset_DirtyChanged(bool dirty)
         {
-            if (dirty) this.Text = "* ";
-            this.Text += Tileset.Name;
+            if (dirty) this.Text = "* " + Tileset.Name;
+            else this.Text = Tileset.Name;
         }
 
         protected override void OnClosing(CancelEventArgs e)
