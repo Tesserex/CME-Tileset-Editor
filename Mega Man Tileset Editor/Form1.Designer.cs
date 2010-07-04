@@ -145,21 +145,21 @@
             // tileSheetToolStripMenuItem
             // 
             this.tileSheetToolStripMenuItem.Name = "tileSheetToolStripMenuItem";
-            this.tileSheetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tileSheetToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.tileSheetToolStripMenuItem.Text = "Tile Sheet";
             this.tileSheetToolStripMenuItem.Click += new System.EventHandler(this.tileSheetToolStripMenuItem_Click);
             // 
             // tilesToolStripMenuItem
             // 
             this.tilesToolStripMenuItem.Name = "tilesToolStripMenuItem";
-            this.tilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tilesToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.tilesToolStripMenuItem.Text = "Tiles";
             this.tilesToolStripMenuItem.Click += new System.EventHandler(this.tilesToolStripMenuItem_Click);
             // 
             // toolboxToolStripMenuItem
             // 
             this.toolboxToolStripMenuItem.Name = "toolboxToolStripMenuItem";
-            this.toolboxToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.toolboxToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.toolboxToolStripMenuItem.Text = "Toolbox";
             this.toolboxToolStripMenuItem.Click += new System.EventHandler(this.toolboxToolStripMenuItem_Click);
             // 
@@ -176,7 +176,7 @@
             this.customizeToolStripMenuItem.Checked = true;
             this.customizeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
             this.customizeToolStripMenuItem.Text = "Snap";
             this.customizeToolStripMenuItem.Click += new System.EventHandler(this.customizeToolStripMenuItem_Click);
             // 
@@ -220,7 +220,7 @@
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Mega Man Tileset Editor";
+            this.Text = "C# MegaMan Engine Tileset Editor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

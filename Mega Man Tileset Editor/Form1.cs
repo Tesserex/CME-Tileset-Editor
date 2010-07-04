@@ -175,11 +175,18 @@ namespace Mega_Man_Tileset_Editor
                     return;
                 }
 
-                TilesetEditor tileset = TilesetEditor.FromFile(path);
+                try
+                {
+                    TilesetEditor tileset = TilesetEditor.FromFile(path);
 
-                LoadTilesetForms(tileset);
+                    LoadTilesetForms(tileset);
 
-                toolboxForm.Selected = 0;
+                    toolboxForm.Selected = 0;
+                }
+                catch
+                {
+                    MessageBox.Show("The selected XML file was not recognized as a valid tileset definition file.", "CME Level Editor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
